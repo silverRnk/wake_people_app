@@ -136,9 +136,21 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     return showDialog(context: context, 
     builder: (context) {
       return SimpleDialog(
-        title: Text("Devices"),
+        title: Text("Devices", style: const TextStyle(fontWeight: FontWeight.bold),),
         children: [
-          Text("Device 1")
+          Container(
+            width: 150,
+            height: 250,
+            padding: EdgeInsets.symmetric(horizontal: 10),
+            child: ListView(
+              children: [
+                ListTile(onTap: () {},
+                 title: Text("Device 1"),
+                 trailing: Icon(Icons.wifi_2_bar),
+                )
+              ],
+            )
+          )
         ],
       );
     },);
