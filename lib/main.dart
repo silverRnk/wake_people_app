@@ -64,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
   bool _isAlarmOn = false;
   double turns = 0.0;
   DeviceStatus _deviceStatus = DeviceStatus.ready;
+  double _volume = 0;
 
 
   void _incrementCounter() {
@@ -154,6 +155,34 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
         ],
       );
     },);
+  }
+
+  Future<int?> _volumeDialog(BuildContext context) {
+
+    return showDialog<int>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: 
+            Container(
+              width: 150,
+              height: 250,
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Center(
+                child: Slider(
+                  value: _volume, 
+                  divisions: 100,
+                  onChanged: (value) {
+                    setState(() {
+                      _volume = value;
+                    });
+                },),
+              ),
+            )
+        );
+      },
+
+    );
   }
 
 
