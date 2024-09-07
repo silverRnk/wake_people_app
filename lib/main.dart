@@ -19,10 +19,9 @@ const colorThemeLight = ColorScheme(
   onSecondary: Colors.white, 
   error: Colors.red, 
   onError: Colors.white, 
-  background: babyBlue, 
-  onBackground: navyBlue, 
-  surface: blueGreen, 
-  onSurface: navyBlue);
+  surface: babyBlue, 
+  onSurface: navyBlue, 
+);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -157,9 +156,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     },);
   }
 
-  Future<int?> _volumeDialog(BuildContext context) {
+  Future<double?> _volumeDialog(BuildContext context) {
 
-    return showDialog<int>(
+    return showDialog<double>(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -171,14 +170,19 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
               child: Center(
                 child: Slider(
                   value: _volume, 
-                  divisions: 100,
-                  onChanged: (value) {
+                  secondaryTrackValue: 1.0,
+                  onChanged: (double value) {
                     setState(() {
                       _volume = value;
                     });
                 },),
               ),
-            )
+            ),
+            actions: [
+              TextButton(onPressed: () {
+                Navigator.of(context).pop(_volume);
+              }, child: Text('Ok'))
+            ],
         );
       },
 
@@ -217,7 +221,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             icon: Icon(Icons.access_alarms, color: Theme.of(context).colorScheme.onPrimary,)),
           IconButton(
             tooltip: 'Volume',
-            onPressed: () {}, 
+            onPressed: () {
+              _volumeDialog(context);
+            }, 
             icon: Icon(Icons.volume_down, color: Theme.of(context).colorScheme.onPrimary))
         ],
       ),
