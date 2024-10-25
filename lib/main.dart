@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wake_people_app/widgets/onbutton.dart';
+import 'package:wake_people_app/widgets/volumeDialog.dart';
 
 void main() {
   runApp(const MyApp());
@@ -100,6 +101,12 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
     });
   }
 
+  void _onVolumeChange(double volume) {
+    setState(() {
+      _volume = volume;
+    });
+  }
+
 
   Widget deviceIconButton(DeviceStatus status) {
     IconData icon;
@@ -162,22 +169,27 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       context: context,
       builder: (context) {
         return AlertDialog(
+          title: Text("Volume", style: TextStyle(fontWeight: FontWeight.w700),),
           content: 
-            Container(
-              width: 150,
-              height: 250,
-              padding: EdgeInsets.symmetric(horizontal: 10),
-              child: Center(
-                child: Slider(
-                  value: _volume, 
-                  secondaryTrackValue: 1.0,
-                  onChanged: (double value) {
-                    setState(() {
-                      _volume = value;
-                    });
-                },),
-              ),
-            ),
+          VolumeDialoge(
+            initVolume: _volume,
+            onVolumeChange: _onVolumeChange,
+          ),
+            // Container(
+            //   width: 150,
+            //   height: 250,
+            //   padding: EdgeInsets.symmetric(horizontal: 10),
+            //   child: Center(
+            //     child: Slider(
+            //       value: _volume, 
+            //       secondaryTrackValue: 1.0,
+            //       onChanged: (double value) {
+            //         setState(() {
+            //           _volume = value;
+            //         });
+            //     },),
+            //   ),
+            // ),
             actions: [
               TextButton(onPressed: () {
                 Navigator.of(context).pop(_volume);
@@ -217,7 +229,11 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
           IconButton(
             splashColor: Colors.black,
             splashRadius: 20,
-            onPressed: () {}, 
+            onPressed: () {
+              showDialog(context: context, builder: (context) {
+                return const TimePickerDialog(initialTime: TimeOfDay(hour: 00, minute: 00));
+              },);
+            }, 
             icon: Icon(Icons.access_alarms, color: Theme.of(context).colorScheme.onPrimary,)),
           IconButton(
             tooltip: 'Volume',
@@ -236,7 +252,7 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
             curButton,
             SizedBox(height: 50,),
             AnimatedRotation(turns: turns, 
-            duration: const Duration(milliseconds: 250), 
+            duration: const Duration(milliseconds: 150), 
             child: Icon(Icons.notifications_active, size: 50,),
             onEnd: () {
               setState(() {
@@ -250,7 +266,9 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
                 }
                 
               });
-            },)
+            },),
+
+            
           ],
         ),
       ),
